@@ -1,0 +1,15 @@
+server:
+  port: ${PORT:8080}
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    password: ${POSTGRESQL_PASSWORD}
+    platform: postgres
+    url: ${POSTGRESQL_URL}
+    username: ${POSTGRESQL_USERNAME}
+  jpa:
+    database: POSTGRESQL
+    hibernate:
+      ddl-auto: ${POSTGRESQL_DDL_AUTO}
+    show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
