@@ -3,7 +3,7 @@ apply plugin: 'application'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'maven'
 
-mainClassName = 'ru.bmtsu.order.Application'
+
 group = 'ru.bmtsu'
 
 repositories {
@@ -18,6 +18,8 @@ buildscript {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.3.3.RELEASE")
     }
 }
+
+mainClassName = 'ru.bmtsu.order.Application'
 
 jar {
     manifest {
