@@ -4,6 +4,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'maven'
 
 mainClassName = 'ru.bmtsu.order.Application'
+group = 'ru.bmtsu'
 
 repositories {
     mavenCentral()
