@@ -13,3 +13,17 @@ spring:
       ddl-auto: ${POSTGRESQL_DDL_AUTO}
     show-sql: false
     database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+management:
+  endpoints:
+    web:
+      base-path: /manage
+    path-mapping:
+      health: /health
+
+service:
+  warranty:
+    host: ${SERVICE_WARRANTY_HOST}
+    path: ${SERVICE_WARRANTY_PATH}
+  warehouse:
+    host: ${SERVICE_WAREHOUSE_HOST}
+    path: ${SERVICE_WAREHOUSE_PATH}
