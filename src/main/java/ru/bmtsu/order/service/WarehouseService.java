@@ -13,6 +13,7 @@ import ru.bmtsu.order.controller.dto.OrderItemDTO;
 import ru.bmtsu.order.controller.dto.WarrantyRequestDTO;
 import ru.bmtsu.order.controller.dto.WarrantyResponseDTO;
 import ru.bmtsu.order.exception.ItemNotAvailableException;
+import ru.bmtsu.order.exception.NotFoundItemException;
 import ru.bmtsu.order.exception.WarehouseServiceNotAvailableException;
 
 import java.net.URI;
@@ -45,7 +46,9 @@ public class WarehouseService {
         try {
             response = client.postForEntity(uri, new OrderItemDTO(orderUid, null, model, size), OrderItemDTO.class);
         } catch (HttpClientErrorException e) {
-            if (e.getStatusCode().equals(HttpStatus.NOT_FOUND) || e.getStatusCode().equals(HttpStatus.CONFLICT)) {
+            if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+                throw new NotFoundItemException();
+            } else if (e.getStatusCode().equals(HttpStatus.CONFLICT)) {
                 throw new ItemNotAvailableException();
             } else {
                 throw new WarehouseServiceNotAvailableException();
@@ -83,6 +86,8 @@ public class WarehouseService {
             response = client.postForEntity(uri, orderItemWarranty, WarrantyResponseDTO.class);
         } catch (HttpClientErrorException e) {
             if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+                throw new NotFoundItemException();
+            } else if (e.getStatusCode().equals(HttpStatus.CONFLICT)) {
                 throw new ItemNotAvailableException();
             } else {
                 throw new WarehouseServiceNotAvailableException();

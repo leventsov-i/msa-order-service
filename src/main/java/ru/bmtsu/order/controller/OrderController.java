@@ -5,10 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.bmtsu.order.controller.dto.*;
-import ru.bmtsu.order.exception.ItemNotAvailableException;
-import ru.bmtsu.order.exception.NotFoundOrderException;
-import ru.bmtsu.order.exception.WarehouseServiceNotAvailableException;
-import ru.bmtsu.order.exception.WarrantyServiceNotAvailableException;
+import ru.bmtsu.order.exception.*;
 import ru.bmtsu.order.service.OrderService;
 
 import java.util.List;
@@ -60,7 +57,7 @@ public class OrderController {
                 .body(orderService.warranty(orderUid, warranty));
     }
 
-    @ExceptionHandler({NotFoundOrderException.class})
+    @ExceptionHandler({NotFoundOrderException.class, NotFoundItemException.class})
     public ResponseEntity<ErrorDTO> handlerNotFoundException(Exception e) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
