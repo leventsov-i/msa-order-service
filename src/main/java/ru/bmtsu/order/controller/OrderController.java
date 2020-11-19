@@ -5,6 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.bmtsu.order.controller.dto.*;
+import ru.bmtsu.order.exception.ItemNotAvailableException;
+import ru.bmtsu.order.exception.NotFoundOrderException;
+import ru.bmtsu.order.exception.WarehouseServiceNotAvailableException;
+import ru.bmtsu.order.exception.WarrantyServiceNotAvailableException;
 import ru.bmtsu.order.service.OrderService;
 
 import java.util.List;
@@ -54,5 +58,26 @@ public class OrderController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(orderService.warranty(orderUid, warranty));
+    }
+
+    @ExceptionHandler({NotFoundOrderException.class})
+    public ResponseEntity<ErrorDTO> handlerNotFoundException(Exception e) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ErrorDTO(e.getMessage()));
+    }
+
+    @ExceptionHandler({ItemNotAvailableException.class})
+    public ResponseEntity<ErrorDTO> handlerItemNotAvailable(Exception e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorDTO(e.getMessage()));
+    }
+
+    @ExceptionHandler({WarehouseServiceNotAvailableException.class, WarrantyServiceNotAvailableException.class})
+    public ResponseEntity<ErrorDTO> handlerServiceNotAvailableException(Exception e) {
+        return ResponseEntity
+                .status(HttpStatus.UNPROCESSABLE_ENTITY)
+                .body(new ErrorDTO(e.getMessage()));
     }
 }
